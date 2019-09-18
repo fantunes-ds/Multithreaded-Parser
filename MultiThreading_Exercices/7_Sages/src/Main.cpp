@@ -7,7 +7,6 @@
 
 using namespace Entity;
 
-
 void DisplaySages(Sage* sages)
 {
     while (true)
@@ -16,9 +15,9 @@ void DisplaySages(Sage* sages)
         {
             std::cout << sages[i].GetState() << '/';
         }
-        std::cout << '\r';
+        std::cout << '\n';
 
-        std::this_thread::sleep_for(std::chrono::milliseconds{ 50});
+        std::this_thread::sleep_for(std::chrono::seconds{ 1});
     }
 }
 
@@ -26,13 +25,18 @@ int main(void)
 {
     Sage sages[7];
     std::thread threads[7];
-    std::mutex baguettes[7];
-    for (unsigned int i = 0; i < 7; ++i)
+    std::mutex baguetteMutex[7];
+
+    unsigned int sageCountRef = sages->GetSageCount();
+
+    for (unsigned int i = 0; i < sageCountRef; ++i)
     {
         //t=std::move()
-        threads[i] = std::thread(&Sage::Main, &sages[i]);
+        threads[i] = std::thread(&Sage::Main, &sages[i], std::ref(baguetteMutex[i]), std::ref(baguetteMutex[(i + 1) % sageCountRef]));
+        std::cout << (i + 1) % sageCountRef << '\n';
     }
 
+    system("cls");
     DisplaySages(sages);
 
     for (auto& thread : threads)
