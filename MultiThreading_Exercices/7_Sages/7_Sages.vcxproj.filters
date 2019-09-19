@@ -21,9 +21,15 @@
     <ClCompile Include="src\Entity\Sage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Managers\SageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Entity\Sage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Managers\SageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
