@@ -7,14 +7,14 @@
 
 static unsigned int sageCount = 0;
 
-Entity::Sage::Sage() : m_baguette(m_id), m_id(sageCount++)
+Entity::Sage::Sage() : m_id(sageCount++)
 {
     std::cout << "A new sage has joined the table. Welcome sage " << m_id << '\r';
 }
 
 void Entity::Sage::Main(std::mutex& p_self, std::mutex& p_neighbor)
 {
-    while (true)
+    while (!m_isCycleOver)
     {
         CheckAvailability(p_self, p_neighbor);
 
@@ -35,7 +35,7 @@ void Entity::Sage::CheckAvailability(std::mutex& p_self, std::mutex& p_neighbor)
         SetState(WAITING);
     }
 
-    else if (m_state == WAITING)
+    if (m_state == WAITING)
     {
         isSelfAvailable = p_self.try_lock();
         isNeighbourAvailable = p_neighbor.try_lock();
@@ -43,7 +43,10 @@ void Entity::Sage::CheckAvailability(std::mutex& p_self, std::mutex& p_neighbor)
         if (isSelfAvailable && isNeighbourAvailable)
         {
             SetState(EATING);
+            m_eatingRecord++;
+
             std::this_thread::sleep_for(std::chrono::seconds{ 3 });
+
             SetState(IDLE);
             p_self.unlock();
             p_neighbor.unlock();
@@ -65,7 +68,7 @@ const unsigned int& Entity::Sage::GetSageCount() const noexcept
     return sageCount;
 }
 
-std::ostream& Entity::operator<<(std::ostream& os, SageState s)
+std::ostream& Entity::operator<<(std::ostream& os, const SageState& s)
 {
     switch (s)
     {
