@@ -138,11 +138,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Utils\ColorManagement.cpp" />
     <ClCompile Include="src\Managers\SageManager.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Entity\Sage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Utils\ColorManagement.h" />
     <ClInclude Include="include\Entity\Sage.h" />
     <ClInclude Include="include\Managers\SageManager.h" />
   </ItemGroup>

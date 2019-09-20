@@ -2,6 +2,7 @@
 
 #include <thread>
 #include <chrono>
+#include <Utils/ColorManagement.h>
 
 void Entity::Sage::Main(std::mutex& p_self, std::mutex& p_neighbor)
 {
@@ -53,18 +54,25 @@ void Entity::Sage::CheckAvailability(std::mutex& p_self, std::mutex& p_neighbor)
     }
 }
 
+using namespace Utils;
 std::ostream& Entity::operator<<(std::ostream& os, const SageState& s)
 {
     switch (s)
     {
     case IDLE:
+        ColorManagement::SetColorTo(ColorManagement::Color::BLUE);
         os << "I";
+        ColorManagement::ResetColor();
         break;
     case WAITING:
+        ColorManagement::SetColorTo(ColorManagement::Color::YELLOW);
         os << "W";
+        ColorManagement::ResetColor();
         break;
     case EATING:
+        ColorManagement::SetColorTo(ColorManagement::Color::RED);
         os << "E";
+        ColorManagement::ResetColor();
         break;
     default:
         os.setstate(std::ios_base::failbit);
