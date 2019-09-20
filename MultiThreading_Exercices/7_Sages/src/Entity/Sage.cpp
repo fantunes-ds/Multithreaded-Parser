@@ -1,9 +1,7 @@
 #include <Entity/Sage.h>
 
 #include <thread>
-#include <iostream>
 #include <chrono>
-#include <mutex>
 
 void Entity::Sage::Main(std::mutex& p_self, std::mutex& p_neighbor)
 {

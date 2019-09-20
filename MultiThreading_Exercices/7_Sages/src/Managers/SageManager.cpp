@@ -46,6 +46,7 @@ void Managers::SageManager::UpdateCycle()
 
     while (daysPassed <= m_nbOfCycles)
     {
+        // There is no way but this one to clear completely the console in C++
         system("cls");
 
         std::cout << "Day " << daysPassed << '\n';
@@ -60,7 +61,7 @@ void Managers::SageManager::UpdateCycle()
                 if (isDayOver < 0)
                     isDayOver = 0;
 
-                else if (isDayOver == m_sageCount)
+                else if (isDayOver == static_cast<int>(m_sageCount))
                 {
                     daysPassed++;
                     for (auto& sages : m_sages)
@@ -69,7 +70,7 @@ void Managers::SageManager::UpdateCycle()
             }
         }
 
-        if (isDayOver < m_sageCount)
+        if (isDayOver < static_cast<int>(m_sageCount))
             isDayOver = 0;
 
         std::cout << '\r';
@@ -80,6 +81,8 @@ void Managers::SageManager::UpdateCycle()
     {
         sage.SetIsCycleOver(true);
     }
+    
+    // End cycle message
     std::cout << "Cycle is Over. " << daysPassed - 1 <<
             " days have passed since start. Every Sage has eaten "
             << m_maxMealsPerDay << " times a day.";
