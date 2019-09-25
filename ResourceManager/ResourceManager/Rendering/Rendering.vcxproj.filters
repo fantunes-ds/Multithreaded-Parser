@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Rendering\Managers\Renderer.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Mesh.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Loaders\MeshLoader.cpp" />
+    <ClCompile Include="src\Rendering\Buffers\IndexBuffer.cpp" />
+    <ClCompile Include="src\Rendering\Context\OpenGL\GLFWDevice.cpp" />
+    <ClCompile Include="src\Rendering\Context\OpenGL\GLFWWindow.cpp" />
+    <ClCompile Include="src\Rendering\Context\OpenGL\GLEWDriver.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Rendering\Test.cpp" />
+    <ClCompile Include="src\Rendering\Buffers\VertexBuffer.cpp" />
+    <ClCompile Include="src\Rendering\Buffers\VertexArray.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Shader.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Model.cpp" />
+    <ClCompile Include="src\Rendering\Debug\ShaderDebug.cpp" />
+    <ClCompile Include="src\Rendering\LowRenderer\Camera.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Loaders\ShaderLoader.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Transform.cpp" />
+    <ClCompile Include="src\Rendering\Managers\InputManager.cpp" />
+    <ClCompile Include="src\Rendering\Resources\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Rendering\Context\OpenGL\GLFWDevice.h" />
+    <ClInclude Include="include\Rendering\Context\OpenGL\GLFWWindow.h" />
+    <ClInclude Include="include\Rendering\Context\IDevice.h" />
+    <ClInclude Include="include\Rendering\Context\IDriver.h" />
+    <ClInclude Include="include\Rendering\Context\OpenGL\GLEWDriver.h" />
+    <ClInclude Include="include\Rendering\Export.h" />
+    <ClInclude Include="include\Rendering\Geometry\Vertex.h" />
+    <ClInclude Include="include\stdafx.h" />
+    <ClInclude Include="include\Rendering\Test.h" />
+    <ClInclude Include="include\Rendering\Context\IWindow.h" />
+    <ClInclude Include="include\Rendering\Buffers\IndexBuffer.h" />
+    <ClInclude Include="include\Rendering\Buffers\VertexBuffer.h" />
+    <ClInclude Include="include\Rendering\Buffers\VertexArray.h" />
+    <ClInclude Include="include\Rendering\Resources\Loaders\MeshLoader.h" />
+    <ClInclude Include="include\Rendering\Resources\Mesh.h" />
+    <ClInclude Include="include\Rendering\Managers\Renderer.h" />
+    <ClInclude Include="include\Rendering\Resources\Shader.h" />
+    <ClInclude Include="include\Rendering\Resources\Model.h" />
+    <ClInclude Include="include\Rendering\Resources\Transform.h" />
+    <ClInclude Include="include\Rendering\Debug\ShaderDebug.h" />
+    <ClInclude Include="include\Rendering\LowRenderer\Camera.h" />
+    <ClInclude Include="include\Rendering\Resources\Loaders\ShaderLoader.h" />
+    <ClInclude Include="include\Rendering\Utils\Event.h" />
+    <ClInclude Include="include\Rendering\Managers\InputManager.h" />
+    <ClInclude Include="include\Rendering\LowRenderer\Light.h" />
+    <ClInclude Include="include\Rendering\Resources\Texture.h" />
+  </ItemGroup>
+</Project>
