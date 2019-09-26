@@ -110,12 +110,11 @@ glm::vec3 Rendering::Resources::Model::LoadData(const std::string& p_firstWord,
 
 	lineStream.ignore(p_firstWord.length());
 
-	std::cout << "Parsed a line starting with " << p_firstWord;
-	std::cout << lineStream.str();
+	/*std::cout << "Parsed a line starting with " << p_firstWord;
+	std::cout << lineStream.str();*/
 
 	lineStream >> values.x >> values.y >> values.z;
 	return values;
-	return{};
 }
 
 glm::vec3 Rendering::Resources::Model::LoadFaces(const std::string& p_line)
@@ -140,13 +139,12 @@ glm::vec3 Rendering::Resources::Model::LoadFaces(const std::string& p_line)
 		vertexData.push_back(p);
 
 	glm::vec3 vertices{ vertexData[0] - 1.0f, vertexData[3] - 1.0f, vertexData[6] - 1.0f };
-	std::cout << "Face indices : "
+	/*std::cout << "Face indices : "
 		<< std::to_string(vertices.x) + ' '
 		<< std::to_string(vertices.y) + ' '
-		<< std::to_string(vertices.z);
+		<< std::to_string(vertices.z);*/
 
 	return vertices;
-	return {};
 }
 
 void Rendering::Resources::Model::LoadShader(const std::string& p_vertexFilepath,
