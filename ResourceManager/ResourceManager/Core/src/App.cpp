@@ -35,18 +35,17 @@ int main()
     std::shared_ptr<Core::GameObject> object = std::make_shared<Core::GameObject>();
 	Core::Scene scene1{};
 
-	object->AddComponent<Core::Components::ModelComponent>("../rsc/models/statue.obj");
+	object->AddComponent<Core::Components::ModelComponent>("../rsc/models/Greatsword.obj");
 	glm::vec3 distanceFromPlayer(0.0f, 0.2f, 0.0f);
 	object->AddComponent<Core::Components::CameraComponent>(distanceFromPlayer);
-
-	object->AddTexture("../rsc/textures/brick.png");
+/*object->AddTexture("../rsc/textures/Greatsword/MQGreatsword.bmp");*/
 
 	scene1.AddGameObject(object, "object");
 
 	gameManager.AddScene(scene1);
 	gameManager.SetActiveScene(0);
 
-	glm::vec3 newPos = glm::vec3(-0.5f, 0, 0);
+	glm::vec3 newPos = glm::vec3(0, 0, 0);
 	glm::vec3 rota = glm::vec3(0, 0, 0);
 	glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
 

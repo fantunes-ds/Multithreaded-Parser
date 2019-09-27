@@ -114,11 +114,11 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 	std::string line;
 
 	std::vector<Geometry::Vertex> vertices;
-	std::vector<uint32_t> indices;
+	std::vector<uint32_t> rawIndices;
 
-	std::vector<glm::vec3> positions{};
-	std::vector<glm::vec2> uvs{};
-	std::vector<glm::vec3> normals{};
+	std::vector<glm::vec3> rawVertPos{};
+	std::vector<glm::vec2> rawUVs{};
+	std::vector<glm::vec3> rawNormals{};
 
 	while (std::getline(file, line))
 	{
@@ -134,17 +134,17 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 
 		if (firstWord.str() == "v")
 		{
-			positions.push_back(LoadData(firstWord.str(), line));
+			rawVertPos.push_back(LoadData(firstWord.str(), line));
 		}
 
 		else if (firstWord.str() == "vt")
 		{
-			uvs.push_back(LoadData(firstWord.str(), line));
+			rawUVs.push_back(LoadData(firstWord.str(), line));
 		}
 
 		else if (firstWord.str() == "vn")
 		{
-			normals.push_back(LoadData(firstWord.str(), line));
+			rawNormals.push_back(LoadData(firstWord.str(), line));
 		}
 
 		else if (firstWord.str() == "f")
@@ -152,9 +152,9 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 			for (int i = 0; i < 3; i++)
 			{
 				glm::vec3 face{ LoadFaces(line, i) };
-				indices.emplace_back(static_cast<GLuint>(face.x));
-				indices.emplace_back(static_cast<GLuint>(face.y));
-				indices.emplace_back(static_cast<GLuint>(face.z));
+				rawIndices.emplace_back(static_cast<GLuint>(face.x));
+				rawIndices.emplace_back(static_cast<GLuint>(face.y));
+				rawIndices.emplace_back(static_cast<GLuint>(face.z));
 			}
 		}
 
@@ -162,42 +162,74 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 
 
 
-	/*std::cout << "building object. There are " << positions.size() << " positions, " << uvs.size() << " uvs, " << normals.size() << " normals" << '\n';
+	std::cout << "building object. There are " << rawVertPos.size() << " positions, " << rawUVs.size() << " uvs, " << rawNormals.size() << " normals" << '\n';
 
-	std::vector<uint32_t> vertexIndices;
-	for (unsigned int i = 0; i < indices.size(); i += 9)
+	std::vector<uint32_t> rawVertexIndices;
+	std::vector<uint32_t> realVertexIndices;
+	for (unsigned int i = 0; i < rawIndices.size(); i += 9)
 	{
-		vertexIndices.push_back(indices[i]);
-		vertexIndices.push_back(indices[i+1]);
-		vertexIndices.push_back(indices[i+2]);
+		rawVertexIndices.push_back(rawIndices[i]);
+		rawVertexIndices.push_back(rawIndices[i+1]);
+		rawVertexIndices.push_back(rawIndices[i+2]);
+		realVertexIndices.push_back(rawIndices[i] - 1);
+		realVertexIndices.push_back(rawIndices[i + 1] - 1);
+		realVertexIndices.push_back(rawIndices[i + 2] - 1);
 	}
-    std::vector<uint32_t> textureIndices;
-	for (unsigned int i = 3; i < indices.size(); i += 9)
+    std::vector<uint32_t> rawUVIndices;
+	for (unsigned int i = 3; i < rawIndices.size(); i += 9)
 	{
-		textureIndices.push_back(indices[i]);
-		textureIndices.push_back(indices[i+1]);
-		textureIndices.push_back(indices[i+2]);
+		rawUVIndices.push_back(rawIndices[i]);
+		rawUVIndices.push_back(rawIndices[i+1]);
+		rawUVIndices.push_back(rawIndices[i+2]);
 	}
-    std::vector<uint32_t> normalIndices;
-	for (unsigned int i = 6; i < indices.size(); i += 9)
+    std::vector<uint32_t> rawNormalIndices;
+	for (unsigned int i = 6; i < rawIndices.size(); i += 9)
 	{
-		normalIndices.push_back(indices[i]);
-		normalIndices.push_back(indices[i+1]);
-		normalIndices.push_back(indices[i+2]);
+		rawNormalIndices.push_back(rawIndices[i]);
+		rawNormalIndices.push_back(rawIndices[i+1]);
+		rawNormalIndices.push_back(rawIndices[i+2]);
 	}
-    for (unsigned int i = 0 ; i < vertexIndices.size(); i++)
-	{
-		std::cout << "Vertex[" << i << "]\n";
-		std::cout << "v : " << positions[vertexIndices[i]].x << ' ' << positions[vertexIndices[i]].y << ' ' << positions[vertexIndices[i]].z <<'\n';
-		std::cout << "vt : " << uvs[textureIndices[i]].x << ' ' << uvs[textureIndices[i]].y << '\n';
-		std::cout << "vn : " << normals[normalIndices[i]].x << ' ' << normals[normalIndices[i]].y << ' ' << normals[normalIndices[i]].z << '\n';
+ //   for (unsigned int i = 0 ; i < vertexIndices.size(); i++)
+	//{
+	//	std::cout << "Vertex[" << i << "]\n";
+	//	std::cout << "v : " << positions[vertexIndices[i]].x << ' ' << positions[vertexIndices[i]].y << ' ' << positions[vertexIndices[i]].z <<'\n';
+	//	std::cout << "vt : " << uvs[textureIndices[i]].x << ' ' << uvs[textureIndices[i]].y << '\n';
+	//	std::cout << "vn : " << normals[normalIndices[i]].x << ' ' << normals[normalIndices[i]].y << ' ' << normals[normalIndices[i]].z << '\n';
 
-		Geometry::Vertex tempVert{ positions[vertexIndices[i]], uvs[textureIndices[i]], normals[normalIndices[i]] };
-		vertices.push_back(tempVert);
-	}*/
+	//	/*Geometry::Vertex tempVert{ positions[vertexIndices[i]], uvs[textureIndices[i]], normals[normalIndices[i]] };
+	//	vertices.push_back(tempVert);*/
+	//}
 	std::cout << '\n';
 
-	//m_mesh = std::make_shared<Mesh>(vertices, vertexIndices);
+	for (unsigned int i = 0; i < rawVertexIndices.size(); i++)
+	{
+		Geometry::Vertex tempvert{ rawVertPos[rawVertexIndices[i] - 1], rawUVs[rawUVIndices[i] - 1], rawNormals[rawNormalIndices[i] - 1] };
+		vertices.push_back(tempvert);
+	}
+
+	std::vector<uint32_t> realIndices;
+	for (unsigned int i = 0; i < rawIndices.size(); i++)
+		realIndices.push_back(rawIndices[i] - 1);
+
+	std::vector<uint32_t> fakePosIndices;
+	for (int i = 0; i < rawIndices.size(); i++)
+		fakePosIndices.push_back(i);
+
+
+
+	/*for (unsigned int i = 0; i < rawVertPos.size(); i++) 
+	{
+		unsigned int vertexIndex = rawVertexIndices[i];
+		glm::vec3 vertex = rawVertPos[vertexIndex - 1];
+		unsigned int texIndex = rawTextureIndices[i];
+		glm::vec2 tex = rawUVs[texIndex - 1];
+		unsigned int nmIndex = rawNormalIndices[i];
+		glm::vec3 nm = rawNormals[nmIndex - 1];
+
+		vertices.emplace_back(rawVertPos[i], tex, nm);
+	}*/
+
+	m_mesh = std::make_shared<Mesh>(vertices, fakePosIndices);
 }
 
 glm::vec3 Rendering::Resources::Model::LoadData(const std::string& p_firstWord,
@@ -208,8 +240,8 @@ glm::vec3 Rendering::Resources::Model::LoadData(const std::string& p_firstWord,
 
 	lineStream.ignore(p_firstWord.length());
 
-	std::cout << "Parsed a line starting with " << p_firstWord;
-	std::cout << lineStream.str() << '\n';
+	/*std::cout << "Parsed a line starting with " << p_firstWord;
+	std::cout << lineStream.str() << '\n';*/
 
 	lineStream >> values.x >> values.y >> values.z;
 	return values;
@@ -236,7 +268,7 @@ glm::vec3 Rendering::Resources::Model::LoadFaces(const std::string& p_line, cons
 	while (data >> p)
 		vertexData.push_back(p);
 
-	glm::vec3 vertices{ vertexData[p_offset] - 1.0f, vertexData[p_offset + 3] - 1.0f, vertexData[p_offset + 6] - 1.0f };
+	glm::vec3 vertices{ vertexData[p_offset] , vertexData[p_offset + 3] , vertexData[p_offset + 6] };
 	/*std::cout << "Face indices : "
 		<< std::to_string(vertices.x) + ' '
 		<< std::to_string(vertices.y) + ' '

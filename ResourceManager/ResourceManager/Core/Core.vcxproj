@@ -121,7 +121,8 @@
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)Dependencies\glfw\bin\$(Platform)\glfw3.dll" "$(OutDir)"
 copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"
-xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
+mkdir $(OutDir)..\rsc\
+xcopy "$(SolutionDir)ResourceManager/rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,7 +144,8 @@ xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)Dependencies\glfw\bin\$(Platform)\glfw3.dll" "$(OutDir)"
 copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"
-xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
+mkdir $(OutDir)..\rsc\
+xcopy "$(SolutionDir)ResourceManager/rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -169,7 +171,8 @@ xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)Dependencies\glfw\bin\$(Platform)\glfw3.dll" "$(OutDir)"
 copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"
-xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
+mkdir $(OutDir)..\rsc\
+xcopy "$(SolutionDir)ResourceManager/rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -195,7 +198,8 @@ xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)Dependencies\glfw\bin\$(Platform)\glfw3.dll" "$(OutDir)"
 copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"
-xcopy "$(SolutionDir)rsc" "$(OutDir)..\rsc\" /E /Y</Command>
+mkdir $(OutDir)..\rsc\
+xcopy "$(SolutionDir)ResourceManager/rsc" "$(OutDir)..\rsc\" /E /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
