@@ -13,7 +13,7 @@ CameraComponent::CameraComponent(Core::GameObject& p_gameObject, glm::vec3& p_di
 
 const std::string & Core::Components::CameraComponent::GetType() const
 {
-	return "CameraComponent";
+	return { "CameraComponent" };
 }
 
 void Core::Components::CameraComponent::Update()

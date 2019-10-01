@@ -25,7 +25,7 @@ void Core::GameManager::AddScene(Scene & p_scene)
 	m_allScenes.push_back(p_scene);
 }
 
-void Core::GameManager::SetActiveScene(int p_activeScene)
+void Core::GameManager::SetActiveScene(unsigned int p_activeScene)
 {
 	if (p_activeScene > m_allScenes.size() - 1)
 	{

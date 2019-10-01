@@ -30,7 +30,7 @@ namespace Core
 
 		void DrawActiveScene(Rendering::Managers::Renderer& p_renderer);
 
-		void SetActiveScene(int p_activeScene);
+		void SetActiveScene(unsigned int p_activeScene);
 
 		std::vector<Scene>& GetScenes() noexcept;
 		Scene& GetActiveScene() noexcept;

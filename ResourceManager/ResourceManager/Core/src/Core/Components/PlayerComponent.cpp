@@ -30,7 +30,7 @@ Core::Components::PLAYERSTATE Core::Components::PlayerComponent::GetState() cons
 
 const std::string& Core::Components::PlayerComponent::GetType() const
 {
-	return "PlayerComponent";
+	return { "PlayerComponent" };
 }
 
 void Core::Components::PlayerComponent::Move()
