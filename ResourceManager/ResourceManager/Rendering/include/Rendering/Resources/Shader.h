@@ -40,7 +40,7 @@ namespace Rendering::Resources
 		void RecompileShader();
 
     private:
-        [[nodiscard]] GLuint CompileShader(const GLuint&           p_type,
+        [[nodiscard]] GLuint CompileShader(const GLuint           p_type,
                                            const std::string& p_source) const;
 
         int GetUniformLocation(const std::string& p_name);

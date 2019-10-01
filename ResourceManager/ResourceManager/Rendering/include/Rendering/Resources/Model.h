@@ -26,9 +26,6 @@ namespace Rendering::Resources
 
 		std::shared_ptr<Texture>& GetTexture() noexcept { return m_mesh->GetTexture(); };
 
-		glm::vec3 LoadData(const std::string& p_firstWord, const std::string& p_line) const;
-		glm::vec3 LoadFaces(const std::string& p_line, const int p_offset);
-
         void Bind() const noexcept;
         void Unbind() const noexcept;
 

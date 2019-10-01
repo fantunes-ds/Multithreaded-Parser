@@ -116,7 +116,7 @@ GLint Shader::GetUniformLocation(const std::string& p_name)
 }
 
 
-GLuint Shader::CompileShader(const GLuint&           p_type,
+GLuint Shader::CompileShader(const GLuint           p_type,
 	const std::string& p_source) const
 {
 	const char* pureSource = p_source.data();
