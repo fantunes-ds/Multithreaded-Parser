@@ -15,6 +15,7 @@ namespace Rendering::Resources
         * @param p_rawUVs reference for the UV vector
         * @param p_rawNormals reference for the Normals vector
         * @param p_rawIndices reference for the Indices vector
+        * @return bool will be true if all vectors were filled with at least one information.
         */
         static bool ReadAndStoreRawData(const std::string&      p_path,
                                         std::vector<glm::vec3>& p_rawVertexPos,
