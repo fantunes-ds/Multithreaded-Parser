@@ -2,6 +2,7 @@
 #include <Rendering/Resources/ParserOBJ.h>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_path,
     std::deque<glm::vec3>& p_rawVertexPos, std::deque<glm::vec2>& p_rawUVs,
@@ -36,7 +37,7 @@ bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_
 
         else if (firstWord.str() == "vt")
         {
-            p_rawUVs.push_back(LoadData(firstWord.str(), line));
+            p_rawUVs.emplace_back(LoadData(firstWord.str(), line));
         }
 
         else if (firstWord.str() == "vn")
@@ -63,22 +64,16 @@ bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_
 				for (int i = 0; i < 3; i++)
 				{
 					std::pair faces{ TriangulateQuad(line, i) };
-					p_rawIndices.
-						emplace_back(static_cast<GLuint>(faces.first.x));
-					p_rawIndices.
-						emplace_back(static_cast<GLuint>(faces.first.y));
-					p_rawIndices.
-						emplace_back(static_cast<GLuint>(faces.first.z));
+					p_rawIndices.emplace_back(static_cast<GLuint>(faces.first.x));
+					p_rawIndices.emplace_back(static_cast<GLuint>(faces.first.y));
+					p_rawIndices.emplace_back(static_cast<GLuint>(faces.first.z));
 				}
 				for (int i = 0; i < 3; i++)
 				{
 					std::pair faces{ TriangulateQuad(line, i) };
-					p_rawIndices.
-						emplace_back(static_cast<GLuint>(faces.second.x));
-					p_rawIndices.
-						emplace_back(static_cast<GLuint>(faces.second.y));
-					p_rawIndices.
-						emplace_back(static_cast<GLuint>(faces.second.z));
+					p_rawIndices.emplace_back(static_cast<GLuint>(faces.second.x));
+					p_rawIndices.emplace_back(static_cast<GLuint>(faces.second.y));
+					p_rawIndices.emplace_back(static_cast<GLuint>(faces.second.z));
 				}
 			    break;
             default:
@@ -97,12 +92,7 @@ bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_
 unsigned Rendering::Resources::ParserOBJ::AnalyseFaceComposition(
     const std::string& p_line)
 {
-	int nbOfSlashes{0};
-	for (size_t i = 2; i < p_line.size(); ++i)
-	{
-		if (p_line[i] == '/')
-			nbOfSlashes++;
-	}
+    const unsigned int nbOfSlashes = std::count(p_line.begin(), p_line.end(), '/');
     switch (nbOfSlashes)
     {
 	case 6:

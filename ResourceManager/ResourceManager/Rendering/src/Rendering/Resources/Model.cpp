@@ -77,8 +77,6 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
     std::cout << "Done loading one object in " << elapsed_seconds << " millisec" << '\n';
 
     m_mesh = std::make_shared<Mesh>(vertices, fakePosIndices);
-
-
 }
 
 void Rendering::Resources::Model::LoadShader(const std::string& p_vertexFilepath,

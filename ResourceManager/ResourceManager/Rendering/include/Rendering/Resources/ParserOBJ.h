@@ -10,6 +10,7 @@ namespace Rendering::Resources
     public:
         ParserOBJ()  = delete;
         ~ParserOBJ() = delete;
+
         /**
         * @brief Goes through the whole file, analyses it and retrieves raw data
         * @param p_path path for the OBJ file to be Parsed
