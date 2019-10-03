@@ -6,6 +6,8 @@
 #include <Rendering/Resources/Loaders/ShaderLoader.h>
 #include <Rendering/LowRenderer/Camera.h>
 #include <Rendering/Resources/ParserOBJ.h>
+#include <chrono>
+#include <thread>
 
 
 Rendering::Resources::Model::Model(const std::string& p_path) noexcept
@@ -39,19 +41,27 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 #pragma region VarDeclarations
     std::vector<Geometry::Vertex> vertices;
 
-	std::vector<glm::vec3> rawVertPos{};
-	std::vector<glm::vec2> rawUVs{};
-	std::vector<glm::vec3> rawNormals{};
-	std::vector<uint32_t> rawIndices{};
-	std::vector<uint32_t> rawVertexIndices;
-    std::vector<uint32_t> rawUVIndices;
-    std::vector<uint32_t> rawNormalIndices;
+	std::deque<glm::vec3> rawVertPos{};
+	std::deque<glm::vec2> rawUVs{};
+	std::deque<glm::vec3> rawNormals{};
+
+	std::deque<uint32_t> rawIndices{};
+	std::deque<uint32_t> rawVertexIndices{};
+    std::deque<uint32_t> rawUVIndices{};
+    std::deque<uint32_t> rawNormalIndices{};
 #pragma endregion
 
-	ParserOBJ::ReadAndStoreRawData(p_path, rawVertPos, rawUVs, rawNormals, rawIndices);
+    std::chrono::time_point<std::chrono::system_clock> start, end;
+	start = std::chrono::system_clock::now();
+    
+    //ParserOBJ::ReadAndStoreRawData(p_path.c_str(), rawVertPos, rawUVs, rawNormals, rawIndices);
+	std::thread t1 { &ParserOBJ::ReadAndStoreRawData, p_path.c_str(), std::ref(rawVertPos), std::ref(rawUVs), std::ref(rawNormals), std::ref(rawIndices) };
+	t1.join();
 
-	ParserOBJ::ArrangeIndices(rawIndices, rawVertexIndices, rawUVIndices, rawNormalIndices);
-
+	//ParserOBJ::ArrangeIndices(rawIndices, rawVertexIndices, rawUVIndices, rawNormalIndices);
+	std::thread t2 {&ParserOBJ::ArrangeIndices, std::ref(rawIndices), std::ref(rawVertexIndices), std::ref(rawUVIndices), std::ref(rawNormalIndices)};
+	t2.join();
+       
     for (unsigned int i = 0; i < rawVertexIndices.size(); i++)
 	{
 		Geometry::Vertex tempvert{ rawVertPos[rawVertexIndices[i] - 1], rawUVs[rawUVIndices[i] - 1], rawNormals[rawNormalIndices[i] - 1] };
@@ -62,14 +72,19 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 	for (unsigned int i = 0; i < rawIndices.size(); i++)
 		fakePosIndices.push_back(i);
 
+	end = std::chrono::system_clock::now();
+	int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << "Done loading one object in " << elapsed_seconds << " millisec" << '\n';
+
     m_mesh = std::make_shared<Mesh>(vertices, fakePosIndices);
+
+
 }
 
 void Rendering::Resources::Model::LoadShader(const std::string& p_vertexFilepath,
 	const std::string& p_fragmentFilepath) noexcept
 {
-	m_shader = std::make_shared<Shader>(*Loaders::ShaderLoader::
-		Load(p_vertexFilepath, p_fragmentFilepath));
+	m_shader = std::make_shared<Shader>(*Loaders::ShaderLoader::Load(p_vertexFilepath, p_fragmentFilepath));
 }
 
 void Rendering::Resources::Model::Bind() const noexcept
