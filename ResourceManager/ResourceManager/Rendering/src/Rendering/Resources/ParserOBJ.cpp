@@ -5,8 +5,8 @@
 #include <algorithm>
 
 bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_path,
-    std::deque<glm::vec3>& p_rawVertexPos, std::deque<glm::vec2>& p_rawUVs,
-    std::deque<glm::vec3>& p_rawNormals, std::deque<uint32_t>& p_rawIndices)
+    std::vector<glm::vec3>& p_rawVertexPos, std::vector<glm::vec2>& p_rawUVs,
+    std::vector<glm::vec3>& p_rawNormals, std::vector<uint32_t>& p_rawIndices)
 {
     std::ifstream file{p_path};
     if (!file)
@@ -175,10 +175,10 @@ std::pair<glm::vec3, glm::vec3> Rendering::Resources::ParserOBJ::TriangulateQuad
 }
 
 void Rendering::Resources::ParserOBJ::ArrangeIndices(
-	const std::deque<uint32_t>& p_rawIndices,
-    std::deque<uint32_t>& p_rawVertexIndices,
-    std::deque<uint32_t>& p_rawUVIndices,
-    std::deque<uint32_t>& p_rawNormalIndices)
+	const std::vector<uint32_t>& p_rawIndices,
+    std::vector<uint32_t>& p_rawVertexIndices,
+    std::vector<uint32_t>& p_rawUVIndices,
+    std::vector<uint32_t>& p_rawNormalIndices)
 {
 	for (unsigned int i = 0; i < p_rawIndices.size(); i += 9)
 	{

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <deque>
+#include <vector>
 #include <glm/glm.hpp>
 
 namespace Rendering::Resources
@@ -21,10 +21,10 @@ namespace Rendering::Resources
         * @return bool will be true if all vectors were filled with at least one information.
         */
         static bool ReadAndStoreRawData(const std::string&&      p_path,
-                                        std::deque<glm::vec3>& p_rawVertexPos,
-                                        std::deque<glm::vec2>& p_rawUVs,
-                                        std::deque<glm::vec3>& p_rawNormals,
-                                        std::deque<uint32_t>&  p_rawIndices);
+                                        std::vector<glm::vec3>& p_rawVertexPos,
+                                        std::vector<glm::vec2>& p_rawUVs,
+                                        std::vector<glm::vec3>& p_rawNormals,
+                                        std::vector<uint32_t>&  p_rawIndices);
 
         /**
 		* @brief Goes through all retrieved indices and creates vectors for all types of indices
@@ -32,10 +32,10 @@ namespace Rendering::Resources
 		* @param p_rawUVIndices reference for the UV indices vector
 		* @param p_rawNormalIndices reference for the Normals indices vector
 		*/
-        static void ArrangeIndices(const std::deque<uint32_t>& p_rawIndices,
-			                       std::deque<uint32_t>&       p_rawVertexIndices,
-			                       std::deque<uint32_t>&       p_rawUVIndices,
-			                       std::deque<uint32_t>&       p_rawNormalIndices);
+        static void ArrangeIndices(const std::vector<uint32_t>& p_rawIndices,
+			                       std::vector<uint32_t>&       p_rawVertexIndices,
+			                       std::vector<uint32_t>&       p_rawUVIndices,
+			                       std::vector<uint32_t>&       p_rawNormalIndices);
 
     private:
 

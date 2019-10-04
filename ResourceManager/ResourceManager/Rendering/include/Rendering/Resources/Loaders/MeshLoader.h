@@ -11,7 +11,6 @@ namespace Rendering::Resources::Loaders
 		~MeshLoader() = delete;
 
 		//static Mesh* Load(const std::string& p_filePath); // with ASSIMP
-		static Mesh* MakeCube() noexcept;
 		static bool Destroy(Mesh*& p_meshInstanceReference) noexcept;
 	};
 }

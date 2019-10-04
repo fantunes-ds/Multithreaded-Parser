@@ -9,6 +9,7 @@
 #include <Rendering/Context/OpenGL/GLFWDevice.h>
 #include <Rendering/Context/OpenGL/GLEWDriver.h>
 #include <Rendering/Managers/Renderer.h>
+#include <Rendering/Resources/ResourceManager.h>
 #include <Rendering/LowRenderer/Camera.h>
 #include <Core/GameObject.h>
 #include <Rendering/Managers/InputManager.h>
@@ -33,6 +34,8 @@ int main()
 	Core::GameManager gameManager(renderer.get());
 	Rendering::LowRenderer::Camera mainCamera;
 
+    Rendering::Resources::ResourceManager ResourceManager{};
+
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
 
@@ -41,6 +44,8 @@ int main()
     std::shared_ptr<Core::GameObject> statue = std::make_shared<Core::GameObject>();
     std::shared_ptr<Core::GameObject> link = std::make_shared<Core::GameObject>();
     std::shared_ptr<Core::GameObject> lambo = std::make_shared<Core::GameObject>();
+    std::shared_ptr<Core::GameObject> lambo2 = std::make_shared<Core::GameObject>();
+    std::shared_ptr<Core::GameObject> lambo3 = std::make_shared<Core::GameObject>();
 	Core::Scene scene1{};
 
 	object->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Greatsword.obj");
@@ -48,6 +53,8 @@ int main()
 	statue->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/statue.obj");
 	link->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/YoungLink.obj");
 	lambo->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
+	lambo2->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
+	lambo3->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
 	glm::vec3 distanceFromPlayer(0.0f, 0.2f, 0.0f);
 	object->AddComponent<Core::Components::CameraComponent>(distanceFromPlayer);
     /*object->AddTexture("../rsc/textures/Greatsword/MQGreatsword.bmp");*/
@@ -57,6 +64,8 @@ int main()
 	scene1.AddGameObject(statue, "statue");
 	scene1.AddGameObject(link, "link");
 	scene1.AddGameObject(lambo, "lambo");
+	scene1.AddGameObject(lambo2, "lambo2");
+	scene1.AddGameObject(lambo3, "lambo3");
 
 	gameManager.AddScene(scene1);
 	gameManager.SetActiveScene(0);
@@ -66,6 +75,8 @@ int main()
 	glm::vec3 newPos2 = glm::vec3(2, 0, 0);
 	glm::vec3 newPos3 = glm::vec3(1, 1, 0);
 	glm::vec3 newPos4 = glm::vec3(-4, -1, 0);
+	glm::vec3 newPos5 = glm::vec3(-4, 0, 0);
+	glm::vec3 newPos6 = glm::vec3(-4, 1, 0);
 	glm::vec3 rota = glm::vec3(0, 0, 0);
 	glm::vec3 scale = glm::vec3(0.01f, 0.01f, 0.01f);
 	glm::vec3 scale1 = glm::vec3(0.01f, 0.01f, 0.01f);
@@ -78,10 +89,12 @@ int main()
 	gameManager.GetActiveScene().FindGameObject("statue")->SetTransform(newPos2, rota, scale2);
 	gameManager.GetActiveScene().FindGameObject("link")->SetTransform(newPos3, rota, scale3);
 	gameManager.GetActiveScene().FindGameObject("lambo")->SetTransform(newPos4, rota, scale4);
+	gameManager.GetActiveScene().FindGameObject("lambo2")->SetTransform(newPos5, rota, scale4);
+	gameManager.GetActiveScene().FindGameObject("lambo3")->SetTransform(newPos6, rota, scale4);
 
 
 	end = std::chrono::system_clock::now();
-	int elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+	size_t elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	std::cout << "Done creating objects in " << elapsed_seconds << " millisec" << '\n';
 
 	while (!device->ShouldClose())

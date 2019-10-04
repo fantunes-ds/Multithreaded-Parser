@@ -82,7 +82,7 @@ void Core::GameObject::UpdateShaders()
 	shader.SetUniform3f("lightSource.Diffuse", lights.Diffuse.x, lights.Diffuse.y, lights.Diffuse.z);
 	shader.SetUniform3f("lightSource.Direction", lights.Direction.x, lights.Direction.y, lights.Direction.z);
 	shader.SetUniform3f("lightSource.Specular", lights.Specular.x, lights.Specular.y, lights.Specular.z);
-	if (model.GetTexture()->IsTextureSet())
+	if (model.GetTexture()->IsTextureSet() != NULL)
 	{
 		shader.SetBool("useTexture", true);
 		shader.SetInt("objectTexture", 1);

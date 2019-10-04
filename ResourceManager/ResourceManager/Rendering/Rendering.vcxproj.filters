@@ -21,6 +21,7 @@
     <ClCompile Include="src\Rendering\Managers\InputManager.cpp" />
     <ClCompile Include="src\Rendering\Resources\Texture.cpp" />
     <ClCompile Include="src\Rendering\Resources\ParserOBJ.cpp" />
+    <ClCompile Include="src\Rendering\Resources\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Rendering\Context\OpenGL\GLFWDevice.h" />
@@ -50,5 +51,6 @@
     <ClInclude Include="include\Rendering\LowRenderer\Light.h" />
     <ClInclude Include="include\Rendering\Resources\Texture.h" />
     <ClInclude Include="include\Rendering\Resources\ParserOBJ.h" />
+    <ClInclude Include="include\Rendering\Resources\ResourceManager.h" />
   </ItemGroup>
 </Project>
