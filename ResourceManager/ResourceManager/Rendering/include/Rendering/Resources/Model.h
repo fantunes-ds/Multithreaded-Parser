@@ -29,10 +29,12 @@ namespace Rendering::Resources
         void Bind() const noexcept;
         void Unbind() const noexcept;
 
+        void RetryLoadModel() noexcept;
     private:
         std::string             m_directory;
         std::shared_ptr<Shader> m_shader;
         std::shared_ptr<Mesh>   m_mesh;
+		std::string m_meshPath;
 
         /*  Functions   */
         void LoadModel(const std::string& path) noexcept;

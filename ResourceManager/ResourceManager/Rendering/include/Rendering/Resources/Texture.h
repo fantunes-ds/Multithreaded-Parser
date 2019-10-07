@@ -20,6 +20,6 @@ namespace Rendering::Resources
 
 	private:
 		GLuint m_id{ 0u };
-		bool m_loaded;
+		bool m_loaded{false};
 	};
 }

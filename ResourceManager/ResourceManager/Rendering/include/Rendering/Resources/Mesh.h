@@ -29,14 +29,18 @@ namespace Rendering::Resources
 
 		const uint32_t GetVertexCount() const noexcept;
 		const uint32_t GetIndicesCount() const noexcept;
+		const bool& GetIsBuffersGenerated() const noexcept { return m_isBuffersGenerated; };
 
 		std::shared_ptr<Texture>& GetTexture() { return m_texture; };
 
-		void CreateBuffers(const std::vector<Geometry::Vertex>& p_vertices, const std::vector<uint32_t>& p_indices) noexcept;
+		void CreateBuffers() noexcept;
 
 	private:
 		const uint32_t m_vertexCount{};
 		const uint32_t m_indicesCount{};
+
+		const std::vector<Geometry::Vertex> m_vertices{};
+	    const std::vector<uint32_t> m_indices{};
 
 		std::unique_ptr<Buffers::VertexArray> m_vertexArray;
 		std::unique_ptr<Buffers::VertexBuffer> m_vboPosition;
@@ -44,5 +48,6 @@ namespace Rendering::Resources
 		std::unique_ptr<Buffers::VertexBuffer> m_vboNormal;
 		std::unique_ptr<Buffers::IndexBuffer> m_indexBuffer;
 		std::shared_ptr<Texture> m_texture;
+		bool m_isBuffersGenerated{ false };
 	};
 }

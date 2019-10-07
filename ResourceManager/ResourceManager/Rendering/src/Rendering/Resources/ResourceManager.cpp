@@ -49,7 +49,7 @@ void Rendering::Resources::ResourceManager::AddMesh(const std::string& p_path)
 	std::cout << "Done loading one object in " << elapsed_seconds << " millisec" << '\n';
 
 	m_meshMap.insert_or_assign(p_path, std::make_shared<Mesh>(vertices, fakePosIndices));
-    //m_meshes.emplace_back(std::make_shared<Mesh>(vertices, fakePosIndices));
+	m_meshMapQueue.insert_or_assign(p_path, meshStatus::LOADED);
 }
 
 std::unique_ptr<Rendering::Resources::ResourceManager>& Rendering::Resources::ResourceManager::GetInstance()

@@ -26,6 +26,7 @@ Rendering::Resources::Model::Model(const Model& p_other) noexcept
 	m_directory = p_other.m_directory;
 	m_mesh = p_other.m_mesh;
 	m_shader = p_other.m_shader;
+	m_meshPath = p_other.m_meshPath;
 }
 
 void Rendering::Resources::Model::AddTexture(const std::string& p_texturePath) const
@@ -35,12 +36,27 @@ void Rendering::Resources::Model::AddTexture(const std::string& p_texturePath) c
 
 void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 {
+	m_meshPath = p_path;
 	std::unordered_map<std::string, std::shared_ptr<Mesh>>& meshMap = ResourceManager::GetInstance()->GetMeshMap();
-	if (meshMap.find(p_path) == meshMap.cend())
+	std::unordered_map<std::string, ResourceManager::meshStatus>& meshMapQueue = ResourceManager::GetInstance()->GetMeshMapQueue();
+	if (meshMap.find(p_path) == meshMap.cend() && meshMapQueue.find(p_path) == meshMapQueue.cend())
 	{
-		ResourceManager::GetInstance()->AddMesh(p_path); 
+		meshMapQueue.insert_or_assign(p_path, ResourceManager::meshStatus::LOADING);
+		//ResourceManager::GetInstance()->AddMesh(p_path); 
+		std::thread t1 { &ResourceManager::AddMesh, ResourceManager::GetInstance().get(), p_path };
+	    t1.detach();
 	}
-	m_mesh = meshMap.find(p_path)->second;
+	else if (meshMapQueue.find(p_path)->second == ResourceManager::meshStatus::LOADED)
+	{
+		m_mesh = meshMap.find(p_path)->second;
+		m_mesh->CreateBuffers();
+	}
+}
+
+void Rendering::Resources::Model::RetryLoadModel() noexcept
+{
+    if(!m_meshPath.empty())
+	LoadModel(m_meshPath);
 }
 
 void Rendering::Resources::Model::LoadShader(const std::string& p_vertexFilepath,

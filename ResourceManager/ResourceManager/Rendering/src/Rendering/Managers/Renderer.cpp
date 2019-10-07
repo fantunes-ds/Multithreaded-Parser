@@ -28,8 +28,14 @@ void Rendering::Managers::Renderer::Draw(
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
-    p_model.Bind();
+	if (p_model.GetMesh() == nullptr)
+		return p_model.RetryLoadModel();
 
+    if (!p_model.GetMesh()->GetIsBuffersGenerated())
+    {
+		p_model.GetMesh()->CreateBuffers();
+    }
+    p_model.Bind();
     if (p_model.GetMesh()->GetIndicesCount() > 0)
     {
         glDrawElements(GL_TRIANGLES, p_model.GetMesh()->GetIndicesCount(),
