@@ -10,7 +10,6 @@
 Rendering::Resources::Model::Model(const std::string& p_path) noexcept
 {
 	LoadModel(p_path);
-	LoadShader();
 }
 
 Rendering::Resources::Model::Model(const std::string& p_modelPath,
@@ -50,6 +49,8 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 	{
 		m_mesh = meshMap.find(p_path)->second;
 		m_mesh->CreateBuffers();
+		LoadShader();
+
 	}
 }
 

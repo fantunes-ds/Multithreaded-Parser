@@ -39,6 +39,8 @@ void Core::Components::ModelComponent::Update()
 
 	glm::mat4 modelMatrix = m_gameObject.GetTransform().GetModelMatrix();
 
+	if (m_model->GetShader() == nullptr)
+		return;
 	m_model->GetShader()->Bind();
 	m_model->GetShader()->SetUniformMatrix4fv("modelMatrix", modelMatrix);
 	m_model->GetShader()->SetUniformMatrix4fv("projectionMatrix", projection);
