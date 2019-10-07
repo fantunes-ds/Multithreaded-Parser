@@ -37,18 +37,17 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 {
 	m_meshPath = p_path;
 
-	std::unordered_map<std::string, std::shared_ptr<Mesh>>& meshMap = Managers::ResourceManager::GetInstance()->GetMeshMap();
-	std::unordered_map<std::string, Managers::ResourceManager::meshStatus>& meshMapStatus = Managers::ResourceManager::GetInstance()->GetMeshMapStatus();
-	if (meshMap.find(p_path) == meshMap.cend() && meshMapStatus.find(p_path) == meshMapStatus.cend())
+	std::unordered_map<std::string, std::pair<std::shared_ptr<Mesh>, Managers::ResourceManager::meshStatus>>& meshMapState = Managers::ResourceManager::GetInstance()->GetMeshMap();
+	if (meshMapState.find(p_path) == meshMapState.cend())
 	{
-		meshMapStatus.insert_or_assign(p_path, Managers::ResourceManager::meshStatus::LOADING);
+		meshMapState.insert_or_assign(p_path, std::make_pair(nullptr, Managers::ResourceManager::meshStatus::LOADING));
 		//ResourceManager::GetInstance()->AddMesh(p_path); 
 		std::thread t1 { &Managers::ResourceManager::AddMesh, Managers::ResourceManager::GetInstance().get(), p_path };
 	    t1.detach(); 
 	}
-	else if (meshMapStatus.find(p_path)->second == Managers::ResourceManager::meshStatus::LOADED)
+	else if (meshMapState.find(p_path)->second.second == Managers::ResourceManager::meshStatus::LOADED)
 	{
-		m_mesh = meshMap.find(p_path)->second;
+		m_mesh = meshMapState.find(p_path)->second.first;
 		m_mesh->CreateBuffers();
 		LoadShader();
 	}

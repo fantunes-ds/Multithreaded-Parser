@@ -23,15 +23,10 @@ namespace Rendering::Managers
         static std::unique_ptr<ResourceManager>& GetInstance();
         void                                     RemoveMesh();
 
-        std::unordered_map<std::string, std::shared_ptr<Resources::Mesh>>&
-        GetMeshMap() { return m_meshMap; }
-
-        std::unordered_map<std::string, meshStatus>& GetMeshMapStatus() { return m_meshMapStatus; }
+		std::unordered_map<std::string, std::pair<std::shared_ptr<Resources::Mesh>, meshStatus>>& GetMeshMap() { return m_meshMap; }
 
     private:
-        std::unordered_map<std::string, std::shared_ptr<Resources::Mesh>> m_meshMap;
-        std::unordered_map<std::string, meshStatus> m_meshMapStatus;
-        std::unordered_map<std::string, std::pair<std::shared_ptr<Resources::Mesh>, meshStatus>> m_meshMapEState;
+        std::unordered_map<std::string, std::pair<std::shared_ptr<Resources::Mesh>, meshStatus>> m_meshMap;
         std::vector<std::shared_ptr<Resources::Mesh>> m_meshes{};
         static std::unique_ptr<ResourceManager>       m_instance;
     };

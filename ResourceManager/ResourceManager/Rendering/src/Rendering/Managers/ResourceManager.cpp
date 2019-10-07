@@ -11,7 +11,7 @@ std::unique_ptr<Rendering::Managers::ResourceManager> Rendering::Managers::Resou
 void Rendering::Managers::ResourceManager::AddMesh(const std::string& p_path)
 {
 #pragma region VarDeclarations
-	std::vector<Rendering::Geometry::Vertex> vertices;
+	std::vector<Geometry::Vertex> vertices;
 
 	std::vector<glm::vec3> rawVertPos{};
 	std::vector<glm::vec2> rawUVs{};
@@ -27,16 +27,16 @@ void Rendering::Managers::ResourceManager::AddMesh(const std::string& p_path)
 	start = std::chrono::system_clock::now();
 
 	//ParserOBJ::ReadAndStoreRawData(p_path.c_str(), rawVertPos, rawUVs, rawNormals, rawIndices);
-	std::thread t1{ &Rendering::Resources::ParserOBJ::ReadAndStoreRawData, p_path.c_str(), std::ref(rawVertPos), std::ref(rawUVs), std::ref(rawNormals), std::ref(rawIndices) };
+	std::thread t1{ &Resources::ParserOBJ::ReadAndStoreRawData, p_path.c_str(), std::ref(rawVertPos), std::ref(rawUVs), std::ref(rawNormals), std::ref(rawIndices) };
 	t1.join();
 
 	//ParserOBJ::ArrangeIndices(rawIndices, rawVertexIndices, rawUVIndices, rawNormalIndices);
-	std::thread t2{ &Rendering::Resources::ParserOBJ::ArrangeIndices, std::ref(rawIndices), std::ref(rawVertexIndices), std::ref(rawUVIndices), std::ref(rawNormalIndices) };
+	std::thread t2{ &Resources::ParserOBJ::ArrangeIndices, std::ref(rawIndices), std::ref(rawVertexIndices), std::ref(rawUVIndices), std::ref(rawNormalIndices) };
 	t2.join();
 
 	for (unsigned int i = 0; i < rawVertexIndices.size(); i++)
 	{
-        Rendering::Geometry::Vertex tempvert{ rawVertPos[rawVertexIndices[i] - 1], rawUVs[rawUVIndices[i] - 1], rawNormals[rawNormalIndices[i] - 1] };
+        Geometry::Vertex tempvert{ rawVertPos[rawVertexIndices[i] - 1], rawUVs[rawUVIndices[i] - 1], rawNormals[rawNormalIndices[i] - 1] };
 		vertices.push_back(tempvert);
 	}
 
@@ -48,15 +48,14 @@ void Rendering::Managers::ResourceManager::AddMesh(const std::string& p_path)
 	auto elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	std::cout << "Done loading one object in " << elapsed_seconds << " millisec" << '\n';
 
-	m_meshMap.insert_or_assign(p_path, std::make_shared<Rendering::Resources::Mesh>(vertices, fakePosIndices));
-	m_meshMapStatus.insert_or_assign(p_path, meshStatus::LOADED);
+	m_meshMap.insert_or_assign(p_path, std::make_pair(std::make_shared<Resources::Mesh>(vertices, fakePosIndices), meshStatus::LOADED));
 }
 
 std::unique_ptr<Rendering::Managers::ResourceManager>& Rendering::Managers::ResourceManager::GetInstance()
 {
 	if (m_instance == nullptr)
 	{
-		m_instance = std::make_unique<Rendering::Managers::ResourceManager>();
+		m_instance = std::make_unique<ResourceManager>();
 	}
 	assert(m_instance != nullptr);
 	return m_instance;
