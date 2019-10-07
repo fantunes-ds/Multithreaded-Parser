@@ -1,11 +1,11 @@
 #include <stdafx.h>
 
+#include <thread>
+
 #include <Rendering/Resources/Model.h>
 #include <Rendering/Resources/Mesh.h>
 #include <Rendering/Resources/Loaders/ShaderLoader.h>
-#include <thread>
-#include <Rendering/Resources/ResourceManager.h>
-
+#include <Rendering/Managers/ResourceManager.h>
 
 Rendering::Resources::Model::Model(const std::string& p_path) noexcept
 {
@@ -36,21 +36,21 @@ void Rendering::Resources::Model::AddTexture(const std::string& p_texturePath) c
 void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 {
 	m_meshPath = p_path;
-	std::unordered_map<std::string, std::shared_ptr<Mesh>>& meshMap = ResourceManager::GetInstance()->GetMeshMap();
-	std::unordered_map<std::string, ResourceManager::meshStatus>& meshMapQueue = ResourceManager::GetInstance()->GetMeshMapQueue();
-	if (meshMap.find(p_path) == meshMap.cend() && meshMapQueue.find(p_path) == meshMapQueue.cend())
+
+	std::unordered_map<std::string, std::shared_ptr<Mesh>>& meshMap = Managers::ResourceManager::GetInstance()->GetMeshMap();
+	std::unordered_map<std::string, Managers::ResourceManager::meshStatus>& meshMapStatus = Managers::ResourceManager::GetInstance()->GetMeshMapStatus();
+	if (meshMap.find(p_path) == meshMap.cend() && meshMapStatus.find(p_path) == meshMapStatus.cend())
 	{
-		meshMapQueue.insert_or_assign(p_path, ResourceManager::meshStatus::LOADING);
+		meshMapStatus.insert_or_assign(p_path, Managers::ResourceManager::meshStatus::LOADING);
 		//ResourceManager::GetInstance()->AddMesh(p_path); 
-		std::thread t1 { &ResourceManager::AddMesh, ResourceManager::GetInstance().get(), p_path };
-	    t1.detach();
+		std::thread t1 { &Managers::ResourceManager::AddMesh, Managers::ResourceManager::GetInstance().get(), p_path };
+	    t1.detach(); 
 	}
-	else if (meshMapQueue.find(p_path)->second == ResourceManager::meshStatus::LOADED)
+	else if (meshMapStatus.find(p_path)->second == Managers::ResourceManager::meshStatus::LOADED)
 	{
 		m_mesh = meshMap.find(p_path)->second;
 		m_mesh->CreateBuffers();
 		LoadShader();
-
 	}
 }
 

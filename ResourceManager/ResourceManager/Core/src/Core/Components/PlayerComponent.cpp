@@ -1,9 +1,9 @@
 #define GLM_SWIZZLE
 #include <gl/glew.h>
-#include <GLFW/glfw3.h>
+#include <iostream>
+
 #include <Core/Components/PlayerComponent.h>
 #include <Core/GameObject.h>
-#include <iostream>
 
 
 Core::Components::PlayerComponent::PlayerComponent(Core::GameObject& p_gameObject) : m_gameObject { p_gameObject }
@@ -28,7 +28,7 @@ Core::Components::PLAYERSTATE Core::Components::PlayerComponent::GetState() cons
 	return m_state;
 }
 
-const std::string& Core::Components::PlayerComponent::GetType() const
+const std::string Core::Components::PlayerComponent::GetType() const
 {
 	return { "PlayerComponent" };
 }

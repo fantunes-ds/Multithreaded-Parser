@@ -1,8 +1,9 @@
 #pragma once
-#include <Core/Components/IComponent.h>
-#include <Rendering/Resources/Transform.h>
 #include <vector>
 #include <iostream>
+
+#include <Core/Components/IComponent.h>
+#include <Rendering/Resources/Transform.h>
 
 namespace Core
 {
@@ -34,12 +35,12 @@ namespace Core
 		{
 			try
 			{
-				if (typeid(T) == typeid(Core::Components::PlayerComponent) && GetComponent<Core::Components::PlayerComponent>() != nullptr)
+				if (typeid(T) == typeid(Components::PlayerComponent) && GetComponent<Components::PlayerComponent>() != nullptr)
 				{
 					std::cout << "GameObject already has one PlayerComponent\n";
 					return;
 				}
-				if (typeid(T) == typeid(Core::Components::CameraComponent) && GetComponent<Core::Components::CameraComponent>() != nullptr)
+				if (typeid(T) == typeid(Components::CameraComponent) && GetComponent<Components::CameraComponent>() != nullptr)
 				{
 					std::cout << "GameObject already has one CameraComponent\n";
 					return;

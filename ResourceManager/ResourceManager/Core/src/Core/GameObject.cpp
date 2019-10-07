@@ -1,8 +1,11 @@
-#include <Core/GameObject.h>
 #include <memory>
 #include <iostream>
+
+#include <Core/GameObject.h>
 #include <Core/Components/ModelComponent.h>
+
 #include <Rendering/LowRenderer/Camera.h>
+#include <Rendering/LowRenderer/Light.h>
 
 using namespace Core;
 
@@ -22,7 +25,7 @@ void Core::GameObject::MoveTo(glm::vec3 & p_vec)
 
 void Core::GameObject::TranslateBy(glm::vec3 & p_vec)
 {
-	glm::vec3 newPos = *m_transform.GetPos() + p_vec;
+	glm::vec3 newPos = m_transform.GetPos() + p_vec;
 	m_transform.SetPos(newPos);
 }
 

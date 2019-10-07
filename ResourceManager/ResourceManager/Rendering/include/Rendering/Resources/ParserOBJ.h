@@ -1,11 +1,14 @@
 #pragma once
 
 #include <vector>
+
 #include <glm/glm.hpp>
+
+#include <Rendering/Export.h>
 
 namespace Rendering::Resources
 {
-    class ParserOBJ
+    class API_RENDERING ParserOBJ
     {
     public:
         ParserOBJ()  = delete;

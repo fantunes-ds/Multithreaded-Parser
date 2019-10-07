@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include <Core/Components/ModelComponent.h>
-//#include <Core/GameObject.h>
+
 #include <Rendering/LowRenderer/Camera.h>
 
 using namespace Core::Components;
@@ -27,7 +27,7 @@ ModelComponent::ModelComponent(const ModelComponent & p_other) : m_gameObject{ p
 	m_model = p_other.m_model;
 }
 
-const std::string& ModelComponent::GetType() const
+const std::string ModelComponent::GetType() const
 {
 	return m_type;
 }

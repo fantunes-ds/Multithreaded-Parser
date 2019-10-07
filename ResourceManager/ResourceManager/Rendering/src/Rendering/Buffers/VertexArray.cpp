@@ -1,4 +1,5 @@
 #include <stdafx.h>
+
 #include <Rendering/Buffers/VertexArray.h>
 
 using namespace Rendering::Buffers;

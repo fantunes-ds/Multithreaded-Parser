@@ -1,10 +1,12 @@
 #include<stdafx.h>
 
-#include "Rendering/Resources/Texture.h"
+#include <iostream>
+
+#include <Rendering/Resources/Texture.h>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-#include <iostream>
 
 Rendering::Resources::Texture::Texture()
 	: m_loaded{ false }

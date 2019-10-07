@@ -1,6 +1,7 @@
 #include <stdafx.h>
+
 #include <Rendering/Context/OpenGL/GLFWWindow.h>
-#include "Rendering/Managers/InputManager.h"
+#include <Rendering/Managers/InputManager.h>
 
 using namespace Rendering::Context::OpenGL;
 

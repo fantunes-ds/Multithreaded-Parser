@@ -1,8 +1,8 @@
 #pragma once
+
 #include <Rendering/Export.h>
 #include <Rendering/Context/IDriver.h>
-#include <Rendering/Resources/Mesh.h>
-#include "Rendering/Resources/Model.h"
+#include <Rendering/Resources/Model.h>
 
 namespace Rendering::Managers
 {

@@ -1,8 +1,11 @@
-#include <Core/GameManager.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 #include <utility>
-#include "Core/Components/PlayerComponent.h"
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include <Core/GameManager.h>
+#include <Core/GameObject.h>
 
 using namespace Core;
 
@@ -73,7 +76,7 @@ void Core::GameManager::HandleEvents()
 	Rendering::Managers::InputManager::GetInstance()->UpdateCursorPos();
 }
 
-void Core::GameManager::Update()
+void GameManager::Update()
 {
 	const double currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
@@ -82,13 +85,13 @@ void Core::GameManager::Update()
 	m_allScenes[m_activeScene].Update();
 }
 
-void Core::GameManager::DrawActiveScene(Rendering::Managers::Renderer& p_renderer)
+void GameManager::DrawActiveScene(Rendering::Managers::Renderer& p_renderer)
 {
 	m_allScenes[m_activeScene].DrawAll(p_renderer);
 }
 
 
-std::unordered_map<std::string, std::shared_ptr<Core::GameObject>>& Core::GameManager::GetGameObjectsInScene(unsigned int p_scene)
+std::unordered_map<std::string, std::shared_ptr<GameObject>>& GameManager::GetGameObjectsInScene(unsigned int p_scene)
 {
 	if (p_scene > m_allScenes.size() - 1)
 	{

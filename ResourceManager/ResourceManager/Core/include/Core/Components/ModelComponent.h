@@ -14,7 +14,7 @@ namespace Core::Components
 		~ModelComponent();
 		ModelComponent(const ModelComponent& p_other);
 
-		const std::string& GetType() const override;
+		const std::string GetType() const override;
 		void Update() override;
 		const std::shared_ptr<Rendering::Resources::Mesh>& GetMesh() const;
 		const std::shared_ptr<Rendering::Resources::Model>& GetModel() const;

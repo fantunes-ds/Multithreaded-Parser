@@ -21,7 +21,7 @@ namespace Core::Components
 
 		int GetHealth() const;
 		PLAYERSTATE GetState() const;
-		const std::string& GetType() const override;
+		const std::string GetType() const override;
 
 		void Move();
 		void Update() override;

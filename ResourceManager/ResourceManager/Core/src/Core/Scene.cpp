@@ -1,10 +1,10 @@
+#include <stdafx.h>
+
 #include <Core/Scene.h>
 #include <Core/GameObject.h>
+#include <Core/Components/ModelComponent.h>
+
 #include <Rendering/Managers/Renderer.h>
-#include <Rendering/LowRenderer/Camera.h>
-#include <Rendering/LowRenderer/Light.h>
-#include <stdafx.h>
-#include "Core/Components/ModelComponent.h"
 
 
 Core::Scene::Scene(const Scene & p_other)

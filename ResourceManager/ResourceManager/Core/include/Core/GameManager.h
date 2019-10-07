@@ -3,11 +3,11 @@
 #include <memory>
 #include <Rendering/Resources/Model.h>
 #include <Core/GameObject.h>
-#include <Rendering/Managers/Renderer.h>
-#include <Rendering/Managers/InputManager.h>
-#include <Core/Scene.h>
-#include "Rendering/Context/IDevice.h"
 
+#include <Rendering/Context/IDevice.h>
+#include <Rendering/Managers/Renderer.h>
+
+#include <Core/Scene.h>
 namespace Core
 {
 	class GameManager

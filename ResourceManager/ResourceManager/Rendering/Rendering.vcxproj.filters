@@ -9,7 +9,6 @@
     <ClCompile Include="src\Rendering\Context\OpenGL\GLFWWindow.cpp" />
     <ClCompile Include="src\Rendering\Context\OpenGL\GLEWDriver.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Rendering\Test.cpp" />
     <ClCompile Include="src\Rendering\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\Rendering\Buffers\VertexArray.cpp" />
     <ClCompile Include="src\Rendering\Resources\Shader.cpp" />
@@ -21,7 +20,7 @@
     <ClCompile Include="src\Rendering\Managers\InputManager.cpp" />
     <ClCompile Include="src\Rendering\Resources\Texture.cpp" />
     <ClCompile Include="src\Rendering\Resources\ParserOBJ.cpp" />
-    <ClCompile Include="src\Rendering\Resources\ResourceManager.cpp" />
+    <ClCompile Include="src\Rendering\Managers\ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Rendering\Context\OpenGL\GLFWDevice.h" />
@@ -32,7 +31,6 @@
     <ClInclude Include="include\Rendering\Export.h" />
     <ClInclude Include="include\Rendering\Geometry\Vertex.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\Rendering\Test.h" />
     <ClInclude Include="include\Rendering\Context\IWindow.h" />
     <ClInclude Include="include\Rendering\Buffers\IndexBuffer.h" />
     <ClInclude Include="include\Rendering\Buffers\VertexBuffer.h" />
@@ -51,6 +49,6 @@
     <ClInclude Include="include\Rendering\LowRenderer\Light.h" />
     <ClInclude Include="include\Rendering\Resources\Texture.h" />
     <ClInclude Include="include\Rendering\Resources\ParserOBJ.h" />
-    <ClInclude Include="include\Rendering\Resources\ResourceManager.h" />
+    <ClInclude Include="include\Rendering\Managers\ResourceManager.h" />
   </ItemGroup>
 </Project>

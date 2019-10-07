@@ -7,7 +7,7 @@ namespace Core::Components
 	{
 	public:
 		virtual ~IComponent() = default;
-		virtual const std::string& GetType() const = 0;
+		virtual const std::string GetType() const = 0;
 		virtual void Update() = 0;
 	};
 }

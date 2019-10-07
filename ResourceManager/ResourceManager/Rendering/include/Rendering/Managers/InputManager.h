@@ -1,8 +1,11 @@
 #pragma once
+
 #include <memory>
-#include <Rendering/Export.h>
-#include <Rendering/Context/IWindow.h>
 #include <queue>
+
+#include <Rendering/Resources/Mesh.h>
+#include <Rendering/Context/IWindow.h>
+#include <Rendering/Export.h>
 
 namespace Rendering::Managers
 {

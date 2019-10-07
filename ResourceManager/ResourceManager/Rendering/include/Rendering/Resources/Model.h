@@ -1,9 +1,12 @@
 #pragma once
-#include <Rendering/Export.h>
-#include <Rendering/Resources/Mesh.h>
-#include <Rendering/Resources/Shader.h>
+
 #include <string>
 #include <memory>
+
+#include <Rendering/Resources/Mesh.h>
+#include <Rendering/Resources/Shader.h>
+
+#include <Rendering/Export.h>
 
 namespace Rendering::Resources
 {

@@ -2,29 +2,27 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <chrono>
+
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
 
 #include <Core/Components/PlayerComponent.h>
+#include <Core/Components/ModelComponent.h>
+#include <Core/Components/CameraComponent.h>
+#include <Core/GameManager.h>
+#include <Core/Scene.h>
+#include <Core/GameObject.h>
+
 #include <Rendering/Context/OpenGL/GLFWDevice.h>
 #include <Rendering/Context/OpenGL/GLEWDriver.h>
 #include <Rendering/Managers/Renderer.h>
-#include <Rendering/Resources/ResourceManager.h>
-#include <Rendering/LowRenderer/Camera.h>
-#include <Core/GameObject.h>
 #include <Rendering/Managers/InputManager.h>
-#include <Core/Scene.h>
-#include <Core/GameManager.h>
-#include <Core/Components/ModelComponent.h>
-#include <Core/Components/CameraComponent.h>
-#include <chrono>
+#include <Rendering/Managers/ResourceManager.h>
+#include <Rendering/LowRenderer/Camera.h>
 
 int main()
 {
-	std::cout << "Hello World!\n";
-
-	//TestGoodRendering();
-
 	auto device = std::make_unique<Rendering::Context::OpenGL::GLFWDevice>(1024, 768);
 	std::unique_ptr<Rendering::Managers::Renderer> renderer = std::make_unique<Rendering::Managers::Renderer>();
 	renderer->Initialize<Rendering::Context::OpenGL::GLEWDriver>();
@@ -34,30 +32,30 @@ int main()
 	Core::GameManager gameManager(renderer.get());
 	Rendering::LowRenderer::Camera mainCamera;
 
-    Rendering::Resources::ResourceManager ResourceManager{};
+    Rendering::Managers::ResourceManager ResourceManager{};
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
 
+    std::shared_ptr<Core::GameObject> lambo = std::make_shared<Core::GameObject>();
+    std::shared_ptr<Core::GameObject> lambo2 = std::make_shared<Core::GameObject>();
+    std::shared_ptr<Core::GameObject> lambo3 = std::make_shared<Core::GameObject>();
     std::shared_ptr<Core::GameObject> object = std::make_shared<Core::GameObject>();
     std::shared_ptr<Core::GameObject> dagger = std::make_shared<Core::GameObject>();
     std::shared_ptr<Core::GameObject> statue = std::make_shared<Core::GameObject>();
     std::shared_ptr<Core::GameObject> link = std::make_shared<Core::GameObject>();
-    std::shared_ptr<Core::GameObject> lambo = std::make_shared<Core::GameObject>();
-    std::shared_ptr<Core::GameObject> lambo2 = std::make_shared<Core::GameObject>();
-    std::shared_ptr<Core::GameObject> lambo3 = std::make_shared<Core::GameObject>();
 	Core::Scene scene1{};
 
+	lambo->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
+	lambo2->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
+	lambo3->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
 	object->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Greatsword.obj");
 	dagger->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Dagger.obj");
 	statue->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/statue.obj");
 	link->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/YoungLink.obj");
-	lambo->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
-	lambo2->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
-	lambo3->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
 	glm::vec3 distanceFromPlayer(0.0f, 0.2f, 0.0f);
 	object->AddComponent<Core::Components::CameraComponent>(distanceFromPlayer);
-    /*object->AddTexture("../rsc/textures/Greatsword/MQGreatsword.bmp");*/
+    //object->AddTexture("../rsc/textures/Greatsword/MQGreatsword.bmp");
 
 	scene1.AddGameObject(object, "object");
 	scene1.AddGameObject(dagger, "dagger");
@@ -94,7 +92,7 @@ int main()
 
 
 	end = std::chrono::system_clock::now();
-	size_t elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+	auto elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	std::cout << "Done creating objects in " << elapsed_seconds << " millisec" << '\n';
 
 	while (!device->ShouldClose())
@@ -113,8 +111,6 @@ int main()
 		gameManager.DrawActiveScene(*renderer);
 		device->Render();
 	}
-
-	//assert(Rendering::Resources::Loaders::MeshLoader::Destroy(mesh));
 
 	return EXIT_SUCCESS;
 }

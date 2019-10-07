@@ -1,4 +1,5 @@
 #include <stdafx.h>
+
 #include <Rendering/Resources/Mesh.h>
 
 Rendering::Resources::Mesh::Mesh(const std::vector<Geometry::Vertex>& p_vertices, const std::vector<uint32_t>& p_indices) noexcept

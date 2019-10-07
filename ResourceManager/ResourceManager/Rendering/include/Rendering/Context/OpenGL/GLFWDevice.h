@@ -1,7 +1,8 @@
 #pragma once
+
 #include <Rendering/Export.h>
 #include <Rendering/Context/IDevice.h>
-#include "GLFWWindow.h"
+#include <Rendering/Context/OpenGL/GLFWWindow.h>
 
 namespace Rendering::Context::OpenGL
 {

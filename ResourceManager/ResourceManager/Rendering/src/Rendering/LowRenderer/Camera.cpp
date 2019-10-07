@@ -1,4 +1,5 @@
 #include <stdafx.h>
+
 #include <Rendering/LowRenderer/Camera.h>
 
 using namespace Rendering::LowRenderer;

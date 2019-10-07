@@ -1,4 +1,5 @@
 #include <stdafx.h>
+
 #include <Rendering/Resources/Loaders/ShaderLoader.h>
 
 Rendering::Resources::Shader* Rendering::Resources::Loaders::ShaderLoader::Load(const std::string& p_vertexFilePath, const std::string& p_fragFilePath) noexcept

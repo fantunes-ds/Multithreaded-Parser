@@ -1,6 +1,8 @@
 #include <stdafx.h>
-#include <Rendering/Resources/Transform.h>
+
 #include <glm/gtc/matrix_transform.hpp>
+
+#include <Rendering/Resources/Transform.h>
 
 Rendering::Resources::Transform::Transform(const glm::vec3& p_pos, const glm::vec3& p_rot, const glm::vec3& p_scale)
 	: m_pos(p_pos),
@@ -11,19 +13,19 @@ Rendering::Resources::Transform::Transform(const glm::vec3& p_pos, const glm::ve
 	UpdateModelMatrix();
 }
 
-glm::vec3* Rendering::Resources::Transform::GetPos()
+glm::vec3& Rendering::Resources::Transform::GetPos()
 {
-	return &m_pos;
+	return m_pos;
 }
 
-glm::vec3* Rendering::Resources::Transform::GetRot()
+glm::vec3& Rendering::Resources::Transform::GetRot()
 {
-	return &m_rot;
+	return m_rot;
 }
 
-glm::vec3* Rendering::Resources::Transform::GetScale()
+glm::vec3& Rendering::Resources::Transform::GetScale()
 {
-	return &m_scale;
+	return m_scale;
 }
 
 void Rendering::Resources::Transform::SetPos(glm::vec3& p_pos)

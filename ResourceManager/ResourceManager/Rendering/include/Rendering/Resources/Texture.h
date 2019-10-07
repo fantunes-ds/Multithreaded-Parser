@@ -1,7 +1,6 @@
 #pragma once
-#include <GLFW/glfw3.h>
+
 #include <Rendering/Export.h>
-#include <Rendering/Context/IWindow.h>
 
 namespace Rendering::Resources
 {

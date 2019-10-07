@@ -1,5 +1,7 @@
 #pragma once
-#include <Rendering/Export.h>
+
+#include <Rendering/Context/IWindow.h>
+#include <glm/glm.hpp>
 
 namespace Rendering::LowRenderer
 {

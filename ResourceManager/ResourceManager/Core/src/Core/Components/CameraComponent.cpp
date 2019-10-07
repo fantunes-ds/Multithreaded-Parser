@@ -1,3 +1,4 @@
+#include <Core/GameObject.h>
 #include <Core/Components/CameraComponent.h>
 
 using namespace Core::Components;
@@ -11,7 +12,7 @@ CameraComponent::CameraComponent(Core::GameObject& p_gameObject, glm::vec3& p_di
 	glm::vec3 newRot = Rendering::LowRenderer::Camera::GetInstance()->GetForward();
 }
 
-const std::string & Core::Components::CameraComponent::GetType() const
+const std::string Core::Components::CameraComponent::GetType() const
 {
 	return { "CameraComponent" };
 }

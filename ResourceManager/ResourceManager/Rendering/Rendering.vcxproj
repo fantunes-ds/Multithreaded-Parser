@@ -212,7 +212,7 @@ copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"</C
     <ClCompile Include="src\Rendering\Context\OpenGL\GLEWDriver.cpp" />
     <ClCompile Include="src\Rendering\Resources\Model.cpp" />
     <ClCompile Include="src\Rendering\Resources\ParserOBJ.cpp" />
-    <ClCompile Include="src\Rendering\Resources\ResourceManager.cpp" />
+    <ClCompile Include="src\Rendering\Managers\ResourceManager.cpp" />
     <ClCompile Include="src\Rendering\Resources\Shader.cpp" />
     <ClCompile Include="src\Rendering\Resources\Texture.cpp" />
     <ClCompile Include="src\Rendering\Resources\Transform.cpp" />
@@ -222,7 +222,6 @@ copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"</C
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Rendering\Test.cpp" />
     <ClCompile Include="src\Rendering\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\Rendering\Buffers\VertexArray.cpp" />
   </ItemGroup>
@@ -241,12 +240,11 @@ copy "$(SolutionDir)Dependencies\glew\bin\$(Platform)\glew32.dll" "$(OutDir)"</C
     <ClInclude Include="include\Rendering\Resources\Loaders\ShaderLoader.h" />
     <ClInclude Include="include\Rendering\Resources\Model.h" />
     <ClInclude Include="include\Rendering\Resources\ParserOBJ.h" />
-    <ClInclude Include="include\Rendering\Resources\ResourceManager.h" />
+    <ClInclude Include="include\Rendering\Managers\ResourceManager.h" />
     <ClInclude Include="include\Rendering\Resources\Shader.h" />
     <ClInclude Include="include\Rendering\Resources\Texture.h" />
     <ClInclude Include="include\Rendering\Utils\Event.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\Rendering\Test.h" />
     <ClInclude Include="include\Rendering\Context\IWindow.h" />
     <ClInclude Include="include\Rendering\Buffers\IndexBuffer.h" />
     <ClInclude Include="include\Rendering\Buffers\VertexBuffer.h" />

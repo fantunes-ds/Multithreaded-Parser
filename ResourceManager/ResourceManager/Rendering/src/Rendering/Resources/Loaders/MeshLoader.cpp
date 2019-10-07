@@ -1,6 +1,6 @@
 #include <stdafx.h>
-#include <Rendering/Resources/Loaders/MeshLoader.h>
 
+#include <Rendering/Resources/Loaders/MeshLoader.h>
 
 bool Rendering::Resources::Loaders::MeshLoader::Destroy(Mesh*& p_meshInstanceReference) noexcept
 {

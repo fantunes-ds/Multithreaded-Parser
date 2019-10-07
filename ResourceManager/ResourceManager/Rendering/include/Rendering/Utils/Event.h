@@ -2,10 +2,8 @@
 
 #include <unordered_map>
 #include <functional>
-#include <Rendering/Export.h>
 
-// Event<int, float, double> myEvent;
-// myEvent.Invoke(32, 23.03f, 23425.2321);
+#include <Rendering/Export.h>
 
 namespace Rendering::Utils
 {

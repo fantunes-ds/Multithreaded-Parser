@@ -1,6 +1,9 @@
 #pragma once
-#include <GL/glew.h>
+
 #include <vector>
+
+#include <GL/glew.h>
+
 #include <Rendering/Export.h>
 
 namespace Rendering::Buffers

@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string_view>
-#include <Rendering/Export.h>
 #include <unordered_map>
-#include <Rendering/LowRenderer/Light.h>
 
+#include <Rendering/Export.h>
 
 namespace Rendering::Resources
 {

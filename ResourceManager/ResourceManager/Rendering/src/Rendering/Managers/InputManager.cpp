@@ -1,4 +1,5 @@
 #include <stdafx.h>
+
 #include <Rendering/Managers/InputManager.h>
 
 std::unique_ptr<Rendering::Managers::InputManager> Rendering::Managers::InputManager::m_instance;

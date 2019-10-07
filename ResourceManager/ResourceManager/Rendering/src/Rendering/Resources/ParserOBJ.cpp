@@ -1,8 +1,10 @@
 #include <stdafx.h>
-#include <Rendering/Resources/ParserOBJ.h>
+
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+
+#include <Rendering/Resources/ParserOBJ.h>
 
 bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_path,
     std::vector<glm::vec3>& p_rawVertexPos, std::vector<glm::vec2>& p_rawUVs,
