@@ -95,6 +95,7 @@ namespace Core
 		std::vector<std::shared_ptr<Core::Components::IComponent>>& GetComponents();
 
 	private:
+		bool m_isInitialized{ false };
 		std::vector<std::shared_ptr<Core::Components::IComponent>> m_components;
 		Rendering::Resources::Transform m_transform{};
 

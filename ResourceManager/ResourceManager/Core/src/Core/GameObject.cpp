@@ -56,7 +56,7 @@ void Core::GameObject::UpdateAllComponents()
 
 void Core::GameObject::UpdateShaders()
 {
-	if (GetComponent<Core::Components::ModelComponent>() == nullptr || GetComponent<Core::Components::ModelComponent>()->GetMesh() == nullptr)
+	if (GetComponent<Core::Components::ModelComponent>() == nullptr || GetComponent<Core::Components::ModelComponent>()->GetMesh() == nullptr || m_isInitialized)
 		return;
 
 	glm::mat4 projection = Rendering::LowRenderer::Camera::GetInstance()->GetProjectionMatrix();
@@ -95,7 +95,7 @@ void Core::GameObject::UpdateShaders()
 		shader.SetBool("useTexture", false);
 	}
 	shader.Unbind();
-
+	m_isInitialized = true;
 
 }
 

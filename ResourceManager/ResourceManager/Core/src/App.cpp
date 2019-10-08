@@ -52,7 +52,7 @@ int main()
 	object->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Greatsword.obj");
 	dagger->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Dagger.obj");
 	statue->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Statue.obj");
-	link->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/YoungLink.obj");
+	link->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Baroque.obj");
 	glm::vec3 distanceFromPlayer(0.0f, 0.2f, 0.0f);
 	object->AddComponent<Core::Components::CameraComponent>(distanceFromPlayer);
     //object->AddTexture("../rsc/textures/Greatsword/MQGreatsword.bmp");
