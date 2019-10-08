@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <algorithm>
 
 #include <Rendering/Resources/ParserOBJ.h>
 
@@ -22,68 +21,25 @@ bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_
 
     while (std::getline(file, line))
     {
-        std::stringstream firstWord{};
-
-        for (char c : line)
+        if (line.substr(0,2) == "v ")
         {
-            if (c != ' ')
-                firstWord << c;
-            else
-                break;
+            p_rawVertexPos.push_back(LoadData(line));
         }
 
-        if (firstWord.str() == "v")
+        else if (line.substr(0,2) == "vt")
         {
-            p_rawVertexPos.push_back(LoadData(firstWord.str(), line));
+            p_rawUVs.emplace_back(LoadData(line));
         }
 
-        else if (firstWord.str() == "vt")
+        else if (line.substr(0,2) == "vn")
         {
-            p_rawUVs.emplace_back(LoadData(firstWord.str(), line));
+            p_rawNormals.push_back(LoadData(line));
         }
 
-        else if (firstWord.str() == "vn")
-        {
-            p_rawNormals.push_back(LoadData(firstWord.str(), line));
-        }
-
-        else if (firstWord.str() == "f")
-        {
-            unsigned int faceComposition = AnalyseFaceComposition(line);
-
-            switch (faceComposition)
-            {
-            case TRIANGLES:
-                for (int i = 0; i < 3; i++)
-                {
-                    glm::vec3 face{LoadTriangulatedFaces(line, i)};
-                    p_rawIndices.emplace_back(static_cast<GLuint>(face.x));
-                    p_rawIndices.emplace_back(static_cast<GLuint>(face.y));
-                    p_rawIndices.emplace_back(static_cast<GLuint>(face.z));
-                }
-                break;
-            case QUAD:
-				for (int i = 0; i < 3; i++)
-				{
-					std::pair faces{ TriangulateQuad(line, i) };
-					p_rawIndices.emplace_back(static_cast<GLuint>(faces.first.x));
-					p_rawIndices.emplace_back(static_cast<GLuint>(faces.first.y));
-					p_rawIndices.emplace_back(static_cast<GLuint>(faces.first.z));
-				}
-				for (int i = 0; i < 3; i++)
-				{
-					std::pair faces{ TriangulateQuad(line, i) };
-					p_rawIndices.emplace_back(static_cast<GLuint>(faces.second.x));
-					p_rawIndices.emplace_back(static_cast<GLuint>(faces.second.y));
-					p_rawIndices.emplace_back(static_cast<GLuint>(faces.second.z));
-				}
-			    break;
-            default:
-                std::cout <<
-                        "[ERROR] ParserOBJ.cpp Face is not a triangle or a quad. Object can not be loaded.\n";
-                break;
-            }
-        }
+		else if (line.substr(0, 2) == "f ")
+		{
+			LoadFaces(line, p_rawIndices);
+		}
     }
 	if (!p_rawVertexPos.empty() && !p_rawUVs.empty() && !p_rawNormals.empty())
 		return true;
@@ -91,89 +47,43 @@ bool Rendering::Resources::ParserOBJ::ReadAndStoreRawData(const std::string&& p_
 		return false;
 }
 
-unsigned Rendering::Resources::ParserOBJ::AnalyseFaceComposition(
-    const std::string& p_line)
+
+glm::vec3 Rendering::Resources::ParserOBJ::LoadData(const std::string& p_line)
 {
-    const unsigned int nbOfSlashes = std::count(p_line.begin(), p_line.end(), '/');
-    switch (nbOfSlashes)
-    {
-	case 6:
-		return TRIANGLES;
-        break;
-	case 8:
-    		return QUAD;
-		break;
-	default:
-		return OTHER;
-		break;
-    }
-}
+	glm::vec<3, float> values{};
 
-glm::vec3 Rendering::Resources::ParserOBJ::LoadData(const std::string& p_firstWord,
-    const std::string& p_line)
-{
-	std::istringstream lineStream{ p_line };
-	glm::vec3 values{};
+	std::string format{ p_line.substr(0,2) };
+	format.append("%f %f %f");
+    sscanf_s(p_line.c_str(),format.c_str(), &values.x, &values.y, &values.z);
 
-	lineStream.ignore(p_firstWord.length());
-
-	lineStream >> values.x >> values.y >> values.z;
 	return values;
 }
 
-glm::vec3 Rendering::Resources::ParserOBJ::LoadTriangulatedFaces(const std::string& p_line,
-    const int p_offset)
+void Rendering::Resources::ParserOBJ::LoadFaces(const std::string& p_line, std::vector<uint32_t>& p_rawIndices)
 {
-	std::stringstream noDelimStr;
+	GLuint data1{ 0 },  data2{ 0 },  data3{ 0 },
+           data4{ 0 },  data5{ 0 },  data6{ 0 },
+           data7{ 0 },  data8{ 0 },  data9{ 0 },
+           data10{ 0 }, data11{ 0 }, data12{ 0 };
 
-	for (size_t i = 2; i < p_line.size(); ++i)
+    const unsigned int count = sscanf_s(p_line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i %i/%i/%i", 
+		                                                                &data1, &data2, &data3,
+		                                                                &data4, &data5, &data6,
+		                                                                &data7, &data8, &data9,
+		                                                                &data10, &data11, &data12);
+
+	if (count >= 9)
 	{
-		if (p_line[i] != '/')
-			noDelimStr << p_line[i];
-		else if (p_line[i] == '/' && p_line[i + 1] == '/')
-			noDelimStr << " 0";
-		else
-			noDelimStr << ' ';
+		p_rawIndices.emplace_back(data1); p_rawIndices.emplace_back(data4); p_rawIndices.emplace_back(data7);
+        p_rawIndices.emplace_back(data2); p_rawIndices.emplace_back(data5);	p_rawIndices.emplace_back(data8);
+		p_rawIndices.emplace_back(data3); p_rawIndices.emplace_back(data6);	p_rawIndices.emplace_back(data9);
 	}
-
-	std::istringstream data{ noDelimStr.str() };
-
-	std::vector<GLfloat> vertexData{};
-	float p;
-	while (data >> p)
-		vertexData.push_back(p);
-
-	glm::vec3 vertices{ vertexData[p_offset] , vertexData[p_offset + 3] , vertexData[p_offset + 6] };
-
-	return vertices;
-}
-
-std::pair<glm::vec3, glm::vec3> Rendering::Resources::ParserOBJ::TriangulateQuad(
-    const std::string& p_line, const int p_offset)
-{
-	std::stringstream noDelimStr;
-
-	for (size_t i = 2; i < p_line.size(); ++i)
+	if (count >= 12)
 	{
-		if (p_line[i] != '/')
-			noDelimStr << p_line[i];
-		else if (p_line[i] == '/' && p_line[i + 1] == '/')
-			noDelimStr << " 0";
-		else
-			noDelimStr << ' ';
-	}
-
-	std::istringstream data{ noDelimStr.str() };
-
-	std::vector<GLfloat> vertexData{};
-	float p;
-	while (data >> p)
-		vertexData.push_back(p);
-
-	glm::vec3 verticesT1{ vertexData[p_offset] , vertexData[p_offset + 3] , vertexData[p_offset + 6] };
-	glm::vec3 verticesT2{ vertexData[p_offset + 6] , vertexData[p_offset + 9] , vertexData[p_offset] };
-
-	return {verticesT1, verticesT2};
+		p_rawIndices.emplace_back(data7); p_rawIndices.emplace_back(data10); p_rawIndices.emplace_back(data1);
+		p_rawIndices.emplace_back(data8); p_rawIndices.emplace_back(data11); p_rawIndices.emplace_back(data2);
+		p_rawIndices.emplace_back(data9); p_rawIndices.emplace_back(data12); p_rawIndices.emplace_back(data3);
+    }
 }
 
 void Rendering::Resources::ParserOBJ::ArrangeIndices(

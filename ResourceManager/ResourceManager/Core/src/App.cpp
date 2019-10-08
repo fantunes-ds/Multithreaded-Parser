@@ -51,7 +51,7 @@ int main()
 	lambo3->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Lambo.obj");
 	object->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Greatsword.obj");
 	dagger->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Dagger.obj");
-	statue->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/statue.obj");
+	statue->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/Statue.obj");
 	link->AddComponent<Core::Components::ModelComponent>("../rsc/meshes/YoungLink.obj");
 	glm::vec3 distanceFromPlayer(0.0f, 0.2f, 0.0f);
 	object->AddComponent<Core::Components::CameraComponent>(distanceFromPlayer);

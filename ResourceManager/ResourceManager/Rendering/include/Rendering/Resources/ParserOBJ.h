@@ -42,21 +42,10 @@ namespace Rendering::Resources
 
     private:
 
-        enum GeometryState
-        {
-            TRIANGLES = 2,
-            QUAD = 3,
-            POLY = 5,
-            OTHER = 0
-        };
 
-        //Determines whether we have a triangle or a quad/poly
-		static unsigned int AnalyseFaceComposition(const std::string& p_line);
         //reads v, vt and vn lines and arranges their data.
-		static glm::vec3 LoadData(const std::string& p_firstWord, const std::string& p_line);
+		static glm::vec3 LoadData(const std::string& p_line);
         //reads face lines and arranges their data.
-		static glm::vec3 LoadTriangulatedFaces(const std::string& p_line, const int p_offset);
-        //takes a Quad and makes it into a Triangle.
-		static std::pair<glm::vec3, glm::vec3> TriangulateQuad(const std::string& p_line, const int p_offset);
+		static void LoadFaces(const std::string& p_line, std::vector<uint32_t>& p_rawIndices);
     };
 }

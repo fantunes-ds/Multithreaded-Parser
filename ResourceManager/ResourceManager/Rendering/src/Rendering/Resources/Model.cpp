@@ -47,9 +47,11 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 	}
 	else if (meshMapState.find(p_path)->second.second == Managers::ResourceManager::meshStatus::LOADED)
 	{
-		m_mesh = meshMapState.find(p_path)->second.first;
-		m_mesh->CreateBuffers();
-		LoadShader();
+		if (!meshMapState.find(p_path)->second.first->GetIsBuffersGenerated())
+			meshMapState.find(p_path)->second.first->CreateBuffers();
+		
+	    m_mesh = meshMapState.find(p_path)->second.first;
+	    LoadShader();
 	}
 }
 
