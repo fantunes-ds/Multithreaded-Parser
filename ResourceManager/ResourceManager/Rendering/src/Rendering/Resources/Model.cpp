@@ -7,6 +7,8 @@
 #include <Rendering/Resources/Loaders/ShaderLoader.h>
 #include <Rendering/Managers/ResourceManager.h>
 
+#define MULTITHREADING 1 // 0 -> off | 1 -> on
+
 Rendering::Resources::Model::Model(const std::string& p_path) noexcept
 {
 	LoadModel(p_path);
@@ -41,9 +43,12 @@ void Rendering::Resources::Model::LoadModel(const std::string& p_path) noexcept
 	if (meshMapState.find(p_path) == meshMapState.cend())
 	{
 		meshMapState.insert_or_assign(p_path, std::make_pair(nullptr, Managers::ResourceManager::meshStatus::LOADING));
-		//ResourceManager::GetInstance()->AddMesh(p_path); 
-		std::thread t1 { &Managers::ResourceManager::AddMesh, Managers::ResourceManager::GetInstance().get(), p_path };
-	    t1.detach(); 
+#if(MULTITHREADING == 0) // monothreading will make sure all objects are loaded before displaying for the first time
+        Managers::ResourceManager::GetInstance()->AddMesh(p_path); 
+#elif (MULTITHREADING == 1) // objects pop up as they finish loading
+	    std::thread t1 { &Managers::ResourceManager::AddMesh, Managers::ResourceManager::GetInstance().get(), p_path };
+	    t1.detach();
+#endif
 	}
 	else if (meshMapState.find(p_path)->second.second == Managers::ResourceManager::meshStatus::LOADED)
 	{

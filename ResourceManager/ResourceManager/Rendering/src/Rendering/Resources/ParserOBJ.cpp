@@ -52,6 +52,7 @@ glm::vec3 Rendering::Resources::ParserOBJ::LoadData(const std::string& p_line)
 {
 	glm::vec<3, float> values{};
 
+    //format is v or vt or vn and the three data relative to it
 	std::string format{ p_line.substr(0,2) };
 	format.append("%f %f %f");
     sscanf_s(p_line.c_str(),format.c_str(), &values.x, &values.y, &values.z);
@@ -66,18 +67,21 @@ void Rendering::Resources::ParserOBJ::LoadFaces(const std::string& p_line, std::
            data7{ 0 },  data8{ 0 },  data9{ 0 },
            data10{ 0 }, data11{ 0 }, data12{ 0 };
 
+    //sscan_f will fill only what he finds -> if he finds 9 data, he will fill 9 data, if he finds 12, he will fill 12.
     const unsigned int count = sscanf_s(p_line.c_str(), "f %i/%i/%i %i/%i/%i %i/%i/%i %i/%i/%i", 
 		                                                                &data1, &data2, &data3,
 		                                                                &data4, &data5, &data6,
 		                                                                &data7, &data8, &data9,
 		                                                                &data10, &data11, &data12);
 
+    //if face is a triangle
 	if (count >= 9)
 	{
 		p_rawIndices.emplace_back(data1); p_rawIndices.emplace_back(data4); p_rawIndices.emplace_back(data7);
         p_rawIndices.emplace_back(data2); p_rawIndices.emplace_back(data5);	p_rawIndices.emplace_back(data8);
 		p_rawIndices.emplace_back(data3); p_rawIndices.emplace_back(data6);	p_rawIndices.emplace_back(data9);
 	}
+    //if face is a quad, we add one triangle with the new point
 	if (count >= 12)
 	{
 		p_rawIndices.emplace_back(data7); p_rawIndices.emplace_back(data10); p_rawIndices.emplace_back(data1);

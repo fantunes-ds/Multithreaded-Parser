@@ -6,6 +6,8 @@
 #include <Rendering/Managers/ResourceManager.h>
 #include <Rendering/Resources/ParserOBJ.h>
 
+#define MULTITHREADING 1 // 0 -> off | 1 -> on
+
 std::unique_ptr<Rendering::Managers::ResourceManager> Rendering::Managers::ResourceManager::m_instance;
 
 void Rendering::Managers::ResourceManager::AddMesh(const std::string& p_path)
@@ -25,15 +27,18 @@ void Rendering::Managers::ResourceManager::AddMesh(const std::string& p_path)
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 	start = std::chrono::system_clock::now();
-
-	//ParserOBJ::ReadAndStoreRawData(p_path.c_str(), rawVertPos, rawUVs, rawNormals, rawIndices);
-	std::thread t1{ &Resources::ParserOBJ::ReadAndStoreRawData, p_path.c_str(), std::ref(rawVertPos), std::ref(rawUVs), std::ref(rawNormals), std::ref(rawIndices) };
+#if (MULTITHREADING == 0)
+    Resources::ParserOBJ::ReadAndStoreRawData(p_path.c_str(), rawVertPos, rawUVs, rawNormals, rawIndices);
+#elif (MULTITHREADING == 1)
+    std::thread t1{ &Resources::ParserOBJ::ReadAndStoreRawData, p_path.c_str(), std::ref(rawVertPos), std::ref(rawUVs), std::ref(rawNormals), std::ref(rawIndices) };
 	t1.join();
-
-	//ParserOBJ::ArrangeIndices(rawIndices, rawVertexIndices, rawUVIndices, rawNormalIndices);
-	std::thread t2{ &Resources::ParserOBJ::ArrangeIndices, std::ref(rawIndices), std::ref(rawVertexIndices), std::ref(rawUVIndices), std::ref(rawNormalIndices) };
+#endif
+#if (MULTITHREADING == 0)
+    Resources::ParserOBJ::ArrangeIndices(rawIndices, rawVertexIndices, rawUVIndices, rawNormalIndices);
+#elif (MULTITHREADING == 1)
+    std::thread t2{ &Resources::ParserOBJ::ArrangeIndices, std::ref(rawIndices), std::ref(rawVertexIndices), std::ref(rawUVIndices), std::ref(rawNormalIndices) };
 	t2.join();
-
+#endif
 	for (unsigned int i = 0; i < rawVertexIndices.size(); i++)
 	{
         Geometry::Vertex tempvert{ rawVertPos[rawVertexIndices[i] - 1], rawUVs[rawUVIndices[i] - 1], rawNormals[rawNormalIndices[i] - 1] };
